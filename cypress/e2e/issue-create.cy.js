@@ -162,6 +162,7 @@ describe('Issue create', () => {
     cy.contains(randomTitle).should('be.visible');
     
   });
+  // Bonus Task 3
   describe('Issue create', () => {
     it('Should trim extra spaces from the issue title on the board view', () => {
       // Define the issue title with extra spaces
