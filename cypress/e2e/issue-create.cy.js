@@ -162,4 +162,42 @@ describe('Issue create', () => {
     cy.contains(randomTitle).should('be.visible');
     
   });
+  describe('Issue create', () => {
+    it('Should trim extra spaces from the issue title on the board view', () => {
+      // Define the issue title with extra spaces
+      const title = ' Hello   world! ';
+  
+      // Create an issue with the defined title
+      cy.visit('/');
+      cy.url().should('eq', `${Cypress.env('baseUrl')}project/board`).then((url) => {
+        cy.visit(url + '/board?modal-issue-create=true');
+      });
+  
+      cy.get('[data-testid="modal:issue-create"]').within(() => {
+        // Open issue type dropdown and choose an appropriate type (e.g., Story)
+        cy.get('[data-testid="select:type"]').click();
+        cy.get('[data-testid="select-option:Story"]').trigger('click');
+  
+        // Type a description
+        cy.get('.ql-editor').type('Test description');
+  
+        // Type the title with extra spaces
+        cy.get('input[name="title"]').type(title);
+  
+        // Select a reporter (e.g., Lord Gaben)
+        cy.get('[data-testid="select:userIds"]').click();
+        cy.get('[data-testid="select-option:Lord Gaben"]').click();
+  
+        // Click on the "Create issue" button
+        cy.get('button[type="submit"]').click();
+      });
+  
+      // Reload the page to view the created issue on the board
+      cy.reload();
+  
+      // Get the issue title from the board view and trim extra spaces
+      cy.contains(title.trim()).should('be.visible');
+    });
+  });
+  
 });
