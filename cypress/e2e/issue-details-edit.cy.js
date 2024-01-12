@@ -47,7 +47,7 @@ describe('Issue details editing', () => {
           cy.get('.ql-snow').should('have.text', description);
       });
   });
-
+//Bonus Task 1
   it("Should validate priority dropdown options", () => {
     // Predefine variable for expected number of elements in the priority dropdown
     const expectedLength = 5;
