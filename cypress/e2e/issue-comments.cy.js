@@ -57,7 +57,7 @@ describe('Issue comments creating, editing and deleting', () => {
         addComment(commentToAdd);
         cy.get('[data-testid="issue-comment"]').should('contain', commentToAdd);
         //Edit the comment and verify that the comment was edited
-        editComment(commentToAdd, editedComment); // Edit the comment
+        editComment(commentToAdd, editedComment);
         cy.get('[data-testid="issue-comment"]').should('contain', editedComment);
         // Delete the comment and verify that the comment was deleted
         deleteComment(editedComment);
