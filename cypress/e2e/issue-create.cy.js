@@ -164,7 +164,7 @@ describe('Issue create', () => {
   });
   // Bonus Task 3
   describe('Issue create', () => {
-    it('Should trim extra spaces from the issue title on the board view', () => {
+  it.only('Should trim extra spaces from the issue title on the board view', () => {
       // Define the issue title with extra spaces
       const title = ' Hello   world! ';
   
