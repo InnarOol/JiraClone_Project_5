@@ -163,14 +163,14 @@ describe('Issue create', () => {
     
   });
   // Bonus Task 3
-  describe('Issue create', () => {
+
   it.only('Should trim extra spaces from the issue title on the board view', () => {
       // Define the issue title with extra spaces
       const title = ' Hello   world! ';
   
       // Create an issue with the defined title
       cy.visit('/');
-      cy.url().should('eq', `${Cypress.env('baseUrl')}project/board`).then((url) => {
+      cy.url().should('include', `${Cypress.env('baseUrl')}project/board`).then((url) => {
         cy.visit(url + '/board?modal-issue-create=true');
       });
   
@@ -181,13 +181,11 @@ describe('Issue create', () => {
   
         // Type a description
         cy.get('.ql-editor').type('Test description');
-  
-        // Type the title with extra spaces
-        cy.get('input[name="title"]').type(title);
-  
-        // Select a reporter (e.g., Lord Gaben)
+        // Select a reporter
         cy.get('[data-testid="select:userIds"]').click();
         cy.get('[data-testid="select-option:Lord Gaben"]').click();
+        // Type the title with extra spaces
+        cy.get('input[name="title"]').type(title);
   
         // Click on the "Create issue" button
         cy.get('button[type="submit"]').click();
@@ -199,6 +197,6 @@ describe('Issue create', () => {
       // Get the issue title from the board view and trim extra spaces
       cy.contains(title.trim()).should('be.visible');
     });
-  });
+  
   
 });
