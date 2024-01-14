@@ -165,38 +165,38 @@ describe('Issue create', () => {
   // Bonus Task 3
 
   it.only('Should trim extra spaces from the issue title on the board view', () => {
-      // Define the issue title with extra spaces
-      const title = ' Hello   world! ';
-  
-      // Create an issue with the defined title
-      cy.visit('/');
-      cy.url().should('include', `${Cypress.env('baseUrl')}project/board`).then((url) => {
-        cy.visit(url + '/board?modal-issue-create=true');
-      });
-  
-      cy.get('[data-testid="modal:issue-create"]').within(() => {
-        // Open issue type dropdown and choose an appropriate type (e.g., Story)
-        cy.get('[data-testid="select:type"]').click();
-        cy.get('[data-testid="select-option:Story"]').trigger('click');
-  
-        // Type a description
-        cy.get('.ql-editor').type('Test description');
-        // Select a reporter
-        cy.get('[data-testid="select:userIds"]').click();
-        cy.get('[data-testid="select-option:Lord Gaben"]').click();
-        // Type the title with extra spaces
-        cy.get('input[name="title"]').type(title);
-  
-        // Click on the "Create issue" button
-        cy.get('button[type="submit"]').click();
-      });
-  
-      // Reload the page to view the created issue on the board
-      cy.reload();
-  
-      // Get the issue title from the board view and trim extra spaces
-      cy.contains(title.trim()).should('be.visible');
+    const title = ' Hello   world! ';
+    const trimmedTitle = title.trim();
+
+      // Open issue type dropdown and choose an appropriate type (Task)
+      cy.get('[data-testid="select:type"]').click();
+      cy.get('[data-testid="select-option:Story"]').click();
+
+      // Type a description
+      cy.get('.ql-editor').type('Test description');
+
+      // Type the title with extra spaces
+      cy.get('input[name="title"]').type(title);
+
+      // Select a reporter
+      cy.get('[data-testid="select:userIds"]').click();
+      cy.get('[data-testid="select-option:Lord Gaben"]').click();
+
+      // Click on the "Create issue" button
+      cy.get('button[type="submit"]').click();
+    
+
+    // Ensure the modal is closed after issue creation
+    cy.get('[data-testid="modal:issue-create"]').should('not.exist');
+
+    // Reload the page to view the created issue on the board
+    cy.reload();
+
+    // Navigate to the backlog list and check for the trimmed title in the first issue
+    cy.get('[data-testid="board-list:backlog"]').should('be.visible').within(() => {
+      cy.get('[data-testid="list-issue"]').first().find('p').should('contain', trimmedTitle);
     });
+  });
   
   
 });
